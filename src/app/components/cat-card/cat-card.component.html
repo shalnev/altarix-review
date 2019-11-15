@@ -1,0 +1,9 @@
+<div *ngIf="cat$ | async as cat">
+  <img width="225px" height="225px" [src]="cat.img" alt="img cat">
+  <h1>{{cat.name}}</h1>
+  <span>{{cat.description}}</span>
+  <h2>{{cat.like}}</h2>
+</div>
+
+<button (click)="">Сохранить</button>
+<button>Удалить</button>

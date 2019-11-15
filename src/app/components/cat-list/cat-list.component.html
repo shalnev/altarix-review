@@ -1,0 +1,19 @@
+<table>
+  <tbody>
+  <tr *ngFor="let cat of cats$ | async" [routerLink]="['/cats', cat._id]">
+    <td>
+      <img width="225px" height="225px" [src]="cat.img" alt="cat">
+    </td>
+    <th>
+      {{cat.name}}
+    </th>
+    <td>
+      {{cat.description}}
+    </td>
+    <td>
+      {{cat.like}}
+    </td>
+    <td><button (click)="likeCat(cat._id)">Like!</button></td>
+  </tr>
+  </tbody>
+</table>
