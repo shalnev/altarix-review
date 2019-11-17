@@ -1,9 +1,19 @@
-<div *ngIf="cat$ | async as cat">
-  <img width="225px" height="225px" [src]="cat.img" alt="img cat">
-  <h1>{{cat.name}}</h1>
-  <span>{{cat.description}}</span>
-  <h2>{{cat.like}}</h2>
-</div>
-
-<button (click)="">Сохранить</button>
-<button>Удалить</button>
+<h1>Карточка котика</h1>
+<form (ngSubmit)="handleSaveCat()" *ngIf="cat$ | async" [formGroup]="formGroup">
+  <div class="description">
+    <div class="image-wrapper">
+      <img *ngIf="imageUrl" [src]="imageUrl" alt="cat" class="cat-img">
+      <input [ngClass]="{'error': submitted && formGroup.controls.img.valid}" placeholder="Загрузить фотографию котика" (change)="uploadFile($event)" accept=".png, .jpg, .jpeg" type='file'/>
+    </div>
+    <div class="text-description">
+      <label>
+        <input [ngClass]="{'error': submitted && !formGroup.controls.name.valid}" formControlName="name" placeholder="Имя котика">
+      </label>
+      <label>
+        <textarea formControlName="description" placeholder="Описание котика…"></textarea>
+      </label>
+    </div>
+  </div>
+  <button class="button" type="submit">Сохранить</button>
+  <button (click)="handleDeleteCat()" class="button">Удалить</button>
+</form>

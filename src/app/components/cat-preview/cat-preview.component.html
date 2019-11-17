@@ -1,0 +1,8 @@
+ <div class="description" [routerLink]="['/cats', cat._id]" >
+    <img [src]="cat.img" alt="cat" class="cat-img">
+    <div class="text-description">
+      <h2>{{cat.name}}</h2>
+      <span>{{cat.description}}</span>
+      <button class="button" (click)="handleLikeCat($event, cat._id)">{{cat.like}} 👍</button>
+    </div>
+  </div>

@@ -7,22 +7,15 @@ import { Router } from '@angular/router';
   templateUrl: './cat-list.component.html',
   styleUrls: ['./cat-list.component.css']
 })
-export class CatListComponent implements OnInit {
-
-  // TODO: сделать элемент списка компонентом
+export class CatListComponent {
 
   cats$ = this.catService.getCats();
 
   constructor(
     private catService: CatsService,
-    private router: Router,
   ) { }
 
-  ngOnInit() {
+  handleLikeCat(catId: string) {
+    this.catService.likeCat(catId);
   }
-
-  likeCat(id: string) {
-    // хранится только в сервисе
-  }
-
 }

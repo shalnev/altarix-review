@@ -1,0 +1,13 @@
+.button {
+  margin: 0 10px 0 0;
+}
+
+.image-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  border-color: #E91E63;
+  color: #E91E63;
+}

@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+.button {
+  width: 120px;
+  height: 50px;
+  font-size: large;
+  border-radius: 6px;
+  border: 1px solid white;
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: darkgray;
+}
+
+.description {
+  display: flex;
+  margin: 0 0 15px 0;
+}
+
+.description:hover {
+  cursor: pointer;
+}
+
+.text-description {
+  margin: 0 0 0 10px;
+}
+
+.text-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.cat-img {
+  height: 225px;
+  width: 225px;
+}

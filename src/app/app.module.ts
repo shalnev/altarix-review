@@ -7,18 +7,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { CatCardComponent } from './components/cat-card/cat-card.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from 'src/app/app/app-routing.module';
+import { CatPreviewComponent } from './components/cat-preview/cat-preview.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     CatListComponent,
-    CatCardComponent
+    CatCardComponent,
+    CatPreviewComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
   ],
