@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Cat, CatsService } from 'src/app/services/cats.service';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { CatsService } from 'src/app/services/cats.service';
 
 @Component({
   selector: 'app-cat-list',
@@ -16,6 +15,6 @@ export class CatListComponent {
   ) { }
 
   handleLikeCat(catId: string) {
-    this.catService.likeCat(catId);
+    this.catService.likeCat(catId).subscribe();
   }
 }

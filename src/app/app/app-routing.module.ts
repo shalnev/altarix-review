@@ -7,7 +7,8 @@ import { CatCardComponent } from 'src/app/components/cat-card/cat-card.component
 const routes: Routes = [
   {
     path: '',
-    component: CatListComponent,
+    redirectTo: 'cats',
+    pathMatch: 'full',
   },
   {
     path: 'cats',
@@ -16,7 +17,7 @@ const routes: Routes = [
   {
     path: 'cats/:id',
     component: CatCardComponent,
-  }
+  },
 ];
 
 @NgModule({

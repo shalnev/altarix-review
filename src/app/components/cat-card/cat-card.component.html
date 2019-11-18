@@ -15,5 +15,5 @@
     </div>
   </div>
   <button class="button" type="submit">Сохранить</button>
-  <button (click)="handleDeleteCat()" class="button">Удалить</button>
+  <button *ngIf="catId" type="button" (click)="handleDeleteCat()"  class="button">Удалить</button>
 </form>

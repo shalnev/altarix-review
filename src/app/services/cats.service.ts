@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { filter, map, pluck, switchMap, tap, toArray } from 'rxjs/operators';
-import { BehaviorSubject, from } from 'rxjs';
+import { filter, first, map, switchMap, tap, } from 'rxjs/operators';
+import { BehaviorSubject, from, of } from 'rxjs';
 
 export interface Cat {
   _id: string;
@@ -12,7 +12,7 @@ export interface Cat {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CatsService {
 
@@ -23,12 +23,13 @@ export class CatsService {
     private httpClient: HttpClient,
   ) { }
 
-  getCat(id: string) {
-    return this.getCats().pipe(
-      switchMap((arrCat) => from(arrCat)),
-      filter(cat => cat._id === id),
-      toArray(),
-      pluck<Cat[], Cat>('0'),
+  getCat(catId: string) {
+    return catId === 'new' ?
+      of({} as Cat) :
+      this.getCats().pipe(
+        switchMap((arrCat) => from(arrCat)),
+        filter(cat => cat._id === catId),
+        map((cat: Cat) => cat),
       );
   }
 
@@ -45,11 +46,33 @@ export class CatsService {
     return this.httpClient.get<Cat[]>('/assets/cats.json');
   }
 
-  deleteCat(catId: string) {}
+  deleteCat(catId: string) {
+    return this.getCats().pipe(
+      first(),
+      map(cats => cats.filter(cat => cat._id !== catId)),
+      tap(cats => this.catsSubj$.next(cats)),
+    );
+  }
 
-  saveCat(cat: Cat) {
+  saveCat(savedCat: Cat, catId: string) {
+    return this.getCats().pipe(
+      first(),
+      map(cats => {
+         if (catId) {
+           const indexSavedCat = cats.indexOf(cats.find(cat => cat._id === catId));
+           cats[indexSavedCat] = {...savedCat, _id: catId, like: 0};
+           return cats;
+         } else {
+           return [...cats, { ...savedCat, _id: String(Math.random()), like: 0 }];
+         }
+      }),
+      tap(cats => this.catsSubj$.next(cats)),
+    );
   }
 
   likeCat(catId: string) {
+    return this.getCat(catId).pipe(
+      tap(cat => cat.like++)
+    );
   }
 }

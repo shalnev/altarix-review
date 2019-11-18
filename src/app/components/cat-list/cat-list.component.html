@@ -1,4 +1,7 @@
-<h1>Список кисок</h1>
+<div class="header">
+  <h1>Список кисок</h1>
+  <button class="button" [routerLink]="['/cats', 'new']" >Добавить новую кису</button>
+</div>
 <div *ngFor="let cat of cats$ | async">
   <app-cat-preview (likeCat)="handleLikeCat($event)" [cat]="cat"></app-cat-preview>
 </div>

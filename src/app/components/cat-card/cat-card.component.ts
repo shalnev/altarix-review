@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Cat, CatsService } from 'src/app/services/cats.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-cat-card',
@@ -19,6 +20,7 @@ export class CatCardComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private catsService: CatsService,
     private formBuilder: FormBuilder,
   ) { }
@@ -27,8 +29,8 @@ export class CatCardComponent implements OnInit {
     const catId = this.activatedRoute.snapshot.params.id;
     this.cat$ = this.catsService.getCat(catId).pipe(
       tap(cat => {
-        this.catId = cat._id;
-        if (cat.img) {
+        if (cat._id) {
+          this.catId = cat._id;
           this.imageUrl = cat.img;
         }
         this.formGroup = this.formBuilder.group({
@@ -46,12 +48,16 @@ export class CatCardComponent implements OnInit {
     if (!this.formGroup.valid) {
       alert('Пожалуйста, заполните обязательные поля');
     } else {
-      debugger;
-      this.catsService.saveCat(this.formGroup.value);
+      this.catsService.saveCat(this.formGroup.value, this.catId).pipe(
+        switchMap(() => fromPromise(this.router.navigateByUrl(''))),
+      ).subscribe();
     }
   }
 
   handleDeleteCat() {
+    this.catsService.deleteCat(this.catId).pipe(
+      switchMap(() => fromPromise(this.router.navigateByUrl(''))),
+    ).subscribe();
   }
 
   uploadFile(event) {
