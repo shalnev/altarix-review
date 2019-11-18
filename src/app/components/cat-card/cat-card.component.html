@@ -3,7 +3,7 @@
   <div class="description">
     <div class="image-wrapper">
       <img *ngIf="imageUrl" [src]="imageUrl" alt="cat" class="cat-img">
-      <input [ngClass]="{'error': submitted && formGroup.controls.img.valid}" placeholder="Загрузить фотографию котика" (change)="uploadFile($event)" accept=".png, .jpg, .jpeg" type='file'/>
+      <input [ngClass]="{'error': submitted && !formGroup.controls.img.valid}" placeholder="Загрузить фотографию котика" (change)="uploadFile($event)" accept=".png, .jpg, .jpeg" type='file'/>
     </div>
     <div class="text-description">
       <label>
