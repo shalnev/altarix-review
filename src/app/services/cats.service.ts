@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { filter, first, map, switchMap, tap, } from 'rxjs/operators';
+import { filter, switchMap, tap, } from 'rxjs/operators';
 import { BehaviorSubject, from, of } from 'rxjs';
 
 export interface Cat {
@@ -29,7 +29,6 @@ export class CatsService {
       this.getCats().pipe(
         switchMap((arrCat) => from(arrCat)),
         filter(cat => cat._id === catId),
-        map((cat: Cat) => cat),
       );
   }
 
@@ -47,26 +46,17 @@ export class CatsService {
   }
 
   deleteCat(catId: string) {
-    return this.getCats().pipe(
-      first(),
-      map(cats => cats.filter(cat => cat._id !== catId)),
-      tap(cats => this.catsSubj$.next(cats)),
+    this.catsSubj$.next(
+      this.catsSubj$.getValue()
+        .filter(cat => cat._id !== catId),
     );
   }
 
   saveCat(savedCat: Cat, catId: string) {
-    return this.getCats().pipe(
-      first(),
-      map(cats => {
-         if (catId) {
-           const indexSavedCat = cats.indexOf(cats.find(cat => cat._id === catId));
-           cats[indexSavedCat] = {...savedCat, _id: catId, like: 0};
-           return cats;
-         } else {
-           return [...cats, { ...savedCat, _id: String(Math.random()), like: 0 }];
-         }
-      }),
-      tap(cats => this.catsSubj$.next(cats)),
+    savedCat._id = catId ? catId : String(Math.random());
+    savedCat.like = 0;
+    this.catsSubj$.next(
+      [...this.catsSubj$.getValue().filter(cat => cat._id !== savedCat._id), savedCat]
     );
   }
 
